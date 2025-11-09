@@ -1,0 +1,22 @@
+<resources>
+    <style name="Base.Theme.Exercise1_team" parent="Theme.Material3.DayNight.NoActionBar">
+
+        <!-- Màu điểm nhấn tím -->
+        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/purple_200</item>
+        <item name="colorTertiary">@color/purple_700</item>
+
+        <!-- Nền theo Material3 -->
+        <item name="colorSurface">@color/surface_black</item>
+        <item name="colorOnSurface">@color/on_black</item>
+        <!-- Nền hệ thống (framework) -->
+        <item name="android:colorBackground">@color/bg_black</item>
+
+        <!-- Thanh hệ thống -->
+        <item name="android:statusBarColor">@color/bg_black</item>
+        <item name="android:navigationBarColor">@color/bg_black</item>
+    </style>
+
+    <style name="Theme.Exercise1_team" parent="Base.Theme.Exercise1_team"/>
+</resources>
