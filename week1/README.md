@@ -1,18 +1,14 @@
-#Login
-![Wallpaper](https://raw.githubusercontent.com/raviyelna/Group-Exercise---MobileDev2025/refs/heads/main/week1/assets/login.png)
+# Login
+![Wallpaper](https://raw.githubusercontent.com/raviyelna/Group-Exercise---MobileDev2025/main/week1/assets/login.png)
 
+# Register
+![Wallpaper](https://raw.githubusercontent.com/raviyelna/Group-Exercise---MobileDev2025/main/week1/assets/register.png)
 
-#Register
-![Wallpaper](https://raw.githubusercontent.com/raviyelna/Group-Exercise---MobileDev2025/refs/heads/main/week1/assets/.png)
+# OTP Auth
+![Wallpaper](https://raw.githubusercontent.com/raviyelna/Group-Exercise---MobileDev2025/main/week1/assets/opt_auth.png)
 
+# Forgot Password
+![Wallpaper](https://raw.githubusercontent.com/raviyelna/Group-Exercise---MobileDev2025/main/week1/assets/forgot_password.png)
 
-#OTP Auth
-![Wallpaper](https://raw.githubusercontent.com/raviyelna/Group-Exercise---MobileDev2025/refs/heads/main/week1/assets/.png)
-
-
-#Forgot Password
-![Wallpaper](https://raw.githubusercontent.com/raviyelna/Group-Exercise---MobileDev2025/refs/heads/main/week1/assets/.png)
-
-
-#Reset Password
-![Wallpaper](https://raw.githubusercontent.com/raviyelna/Group-Exercise---MobileDev2025/refs/heads/main/week1/assets/.png)
+# Reset Password
+![Wallpaper](https://raw.githubusercontent.com/raviyelna/Group-Exercise---MobileDev2025/main/week1/assets/reset_password.png)
