@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Simple rectangular placeholder (use instead of missing image) -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <size android:width="160dp" android:height="240dp"/>
+    <solid android:color="#F0F0F0"/>
+    <stroke android:width="@dimen/stroke_small" android:color="@color/divider"/>
+</shape>

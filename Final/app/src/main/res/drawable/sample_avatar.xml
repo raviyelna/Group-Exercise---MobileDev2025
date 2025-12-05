@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="72dp" android:height="72dp" android:viewportWidth="72" android:viewportHeight="72">
+    <!-- very simple avatar placeholder: circle + eyes + smile -->
+    <path android:fillColor="#FFDDE6" android:pathData="M36,2a34,34 0 1,0 34,34A34,34 0 0,0 36,2z"/>
+    <path android:fillColor="#8E6A6A" android:pathData="M26,30a4,4 0 1,0 0,8 4,4 0 0,0 0-8zM46,30a4,4 0 1,0 0,8 4,4 0 0,0 0-8z"/>
+    <path android:fillColor="#8E6A6A" android:pathData="M26,46c4,4 12,6 20,0 0,0 -6,8 -20,0z"/>
+</vector>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="12dp"
+    android:paddingBottom="12dp">
+
+    <ImageView
+        android:id="@+id/msg_avatar"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:src="@drawable/sample_avatar"
+        android:scaleType="centerCrop"
+        android:background="@drawable/circle_avt_bg"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/msg_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="User name"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@id/msg_avatar"
+        app:layout_constraintTop_toTopOf="@id/msg_avatar"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="12dp"/>
+
+    <TextView
+        android:id="@+id/msg_level"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:text="Lv.4"
+        android:textColor="@color/accent_orange"
+        android:background="@drawable/level_pill"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@id/msg_name"
+        app:layout_constraintBaseline_toBaselineOf="@id/msg_name"
+        android:layout_marginStart="8dp"/>
+
+    <TextView
+        android:id="@+id/msg_content"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Sample message text goes here. It can span multiple lines and should wrap nicely inside a rounded dark bubble."
+        android:textColor="@color/white"
+        android:background="@drawable/message_bubble"
+        android:padding="12dp"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@id/msg_avatar"
+        app:layout_constraintTop_toBottomOf="@id/msg_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="8dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

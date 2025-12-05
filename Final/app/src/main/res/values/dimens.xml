@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="corner_small">8dp</dimen>
+    <dimen name="corner_medium">12dp</dimen>
+    <dimen name="corner_large">14dp</dimen>
+    <dimen name="avatar_size">72dp</dimen>
+    <dimen name="padding_small">8dp</dimen>
+    <dimen name="padding_normal">16dp</dimen>
+    <dimen name="input_height">56dp</dimen>
+    <dimen name="button_height">52dp</dimen>
+    <dimen name="stroke_small">1dp</dimen>
+    <dimen name="avatar_radius">40dp</dimen>
+</resources>
