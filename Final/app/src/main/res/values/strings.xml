@@ -22,7 +22,7 @@
     <string name="forgot_password_query">Forgot password?</string>
 
     <!-- Register -->
-    <string name="hint_full_name">Full name</string>
+    <string name="hint_full_name">Username</string>
     <string name="hint_confirm_password">Confirm password</string>
     <string name="already_have_account">Already have an account?</string>
 

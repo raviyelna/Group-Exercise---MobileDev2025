@@ -61,7 +61,8 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         textBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish(); // giả sử quay về Login
+                Intent i = new Intent(ForgotPasswordActivity.this, LoginActivity.class);
+                startActivity(i);
             }
         });
     }

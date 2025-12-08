@@ -30,6 +30,7 @@
 
         <activity android:name=".ui.auth.RegisterActivity" />
         <activity android:name=".ui.auth.OtpAuthActivity" />
+        <activity android:name=".ui.auth.LoginActivity" />
         <activity android:name=".ui.auth.ResetPasswordActivity" />
 
     </application>
