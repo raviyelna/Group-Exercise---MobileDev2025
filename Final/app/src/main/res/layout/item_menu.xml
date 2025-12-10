@@ -6,19 +6,17 @@
     android:paddingStart="8dp"
     android:paddingEnd="8dp">
 
-    <!-- Icon -->
     <ImageView
         android:id="@+id/item_icon"
         android:layout_width="28dp"
         android:layout_height="28dp"
-        android:src="@drawable/ic_placeholder"
+        android:src="@drawable/ic_home"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:contentDescription="@string/cd_icon"
-        app:tint="@color/accent_cyan" />
+        app:tint="@color/accent_purple" />
 
-    <!-- Title -->
     <TextView
         android:id="@+id/item_title"
         android:layout_width="0dp"
@@ -34,7 +32,6 @@
         android:ellipsize="end"
         android:maxLines="1" />
 
-    <!-- Chevron -->
     <ImageView
         android:id="@+id/item_chevron"
         android:layout_width="20dp"
@@ -45,7 +42,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:tint="@color/chevron" />
 
-    <!-- Ripple/Clickable overlay -->
     <View
         android:id="@+id/click_mask"
         android:layout_width="match_parent"

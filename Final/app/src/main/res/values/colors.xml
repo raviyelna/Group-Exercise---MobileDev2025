@@ -8,11 +8,14 @@
     <color name="accent_orange">#FFB74D</color>
     <color name="bottom_nav_bg">#141416</color>
     <color name="card_divider">#202022</color>
-    <!-- Existing app colors -->
     <color name="brandRed">#FF3B2F</color>
-
-    <!-- Newly added to satisfy references -->
-    <color name="chevron">#3B82F6</color>       <!-- used by ic_chevron_right -->
-    <color name="divider">#E0E0E0</color>      <!-- used in layouts as divider -->
-    <color name="ad_bg">#FFF8E1</color>        <!-- background for ad area -->
+    <color name="chevron">#3B82F6</color>
+    <color name="divider">#E0E0E0</color>
+    <color name="ad_bg">#FFF8E1</color>
+    <color name="accent_purple">#9B59FF</color>
+    <color name="outline_gray">#2A2A2D</color>
+    <color name="black">#FF000000</color>
+    <color name="error_red">#FFE53935</color>
+    <color name="text_primary">#FFFFFFFF</color>
+    <color name="chat_gray">#FF333447</color>
 </resources>

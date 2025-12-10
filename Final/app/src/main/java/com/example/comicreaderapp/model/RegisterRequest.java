@@ -29,7 +29,7 @@ public class RegisterRequest {
         this.email = email;
     }
 
-    public RegisterRequest(String username, String email, String password, String displayName) {
+    public RegisterRequest(String username, String email, String password) {
         this.username = username;
         this.email = email;
         this.password = password;

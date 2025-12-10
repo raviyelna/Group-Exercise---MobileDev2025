@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.comicreaderapp.R;
 import com.example.comicreaderapp.api.ApiErrorUtils;
@@ -18,6 +19,7 @@ import com.example.comicreaderapp.api.ApiService;
 import com.example.comicreaderapp.api.RetrofitClient;
 import com.example.comicreaderapp.model.ForgotPasswordRequest;
 import com.example.comicreaderapp.model.GenericResponse;
+import com.example.comicreaderapp.viewmodel.AuthViewModel;
 import com.google.android.material.textfield.TextInputEditText;
 
 import retrofit2.Call;
@@ -28,75 +30,55 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
     private TextInputEditText editEmail;
     private Button buttonSend;
-    private TextView textBack;
     private ProgressDialog progressDialog;
-    private ApiService apiService;
+    private AuthViewModel authViewModel;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_forget_password);
+        setContentView(R.layout.activity_forgot_password);
 
-        editEmail = findViewById(R.id.editText_ForgotEmail);
-        buttonSend = findViewById(R.id.button_SendReset);
-        textBack = findViewById(R.id.textView_BackToLoginFromForgot);
-        apiService = (ApiService) RetrofitClient.getApiService();
+        editEmail = findViewById(R.id.et_forgot_email);
+        buttonSend = findViewById(R.id.btn_send_reset);
 
         progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Please wait...");
+        progressDialog.setMessage("Đang gửi OTP...");
         progressDialog.setCancelable(false);
 
-        buttonSend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String email = editEmail.getText() != null ? editEmail.getText().toString().trim() : "";
-                if (email.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                    editEmail.setError("Enter a valid email");
-                    return;
-                }
-                sendForgotRequest(email);
+        authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
+
+        authViewModel.loading.observe(this, isLoading -> {
+            if (isLoading != null) {
+                if (isLoading) progressDialog.show();
+                else progressDialog.dismiss();
             }
         });
 
-        textBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(ForgotPasswordActivity.this, LoginActivity.class);
-                startActivity(i);
+        authViewModel.error.observe(this, msg ->
+                Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+        );
+
+        authViewModel.forgotResult.observe(this, response -> {
+            if (response == null) return;
+
+            if (response.isSuccess()) {
+                Toast.makeText(this, "OTP đã được gửi vào email", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this, VerifyOtpActivity.class);
+                intent.putExtra("email", editEmail.getText().toString().trim());
+                startActivity(intent);
+            } else {
+                Toast.makeText(this, response.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-    }
 
-    private void sendForgotRequest(final String email) {
-        progressDialog.show();
-        ForgotPasswordRequest req = new ForgotPasswordRequest(email);
-        // Gọi với action=forgot
-        apiService.forgotPassword("forgot", req).enqueue(new Callback<GenericResponse>() {
-            @Override
-            public void onResponse(Call<GenericResponse> call, Response<GenericResponse> response) {
-                progressDialog.dismiss();
-                if (response.isSuccessful() && response.body() != null) {
-                    GenericResponse body = response.body();
-                    if (body.isSuccess()) {
-                        Toast.makeText(ForgotPasswordActivity.this, "OTP sent to " + email, Toast.LENGTH_LONG).show();
-                        Intent i = new Intent(ForgotPasswordActivity.this, OtpAuthActivity.class);
-                        i.putExtra("email", email);
-                        startActivity(i);
-                    } else {
-                        Toast.makeText(ForgotPasswordActivity.this, body.getMessage(), Toast.LENGTH_LONG).show();
-                    }
-                } else {
-                    ApiErrorUtils.GenericError err = ApiErrorUtils.parseError(response);
-                    String msg = err != null && err.message != null ? err.message : "Failed to send OTP";
-                    Toast.makeText(ForgotPasswordActivity.this, msg, Toast.LENGTH_LONG).show();
-                }
+        buttonSend.setOnClickListener(v -> {
+            String email = editEmail.getText() != null ? editEmail.getText().toString().trim() : "";
+            if (email.isEmpty()) {
+                Toast.makeText(this, "Vui lòng nhập email", Toast.LENGTH_SHORT).show();
+                return;
             }
-
-            @Override
-            public void onFailure(Call<GenericResponse> call, Throwable t) {
-                progressDialog.dismiss();
-                Toast.makeText(ForgotPasswordActivity.this, "Network error: " + t.getMessage(), Toast.LENGTH_LONG).show();
-            }
+            authViewModel.forgot(email);
         });
     }
 }
+

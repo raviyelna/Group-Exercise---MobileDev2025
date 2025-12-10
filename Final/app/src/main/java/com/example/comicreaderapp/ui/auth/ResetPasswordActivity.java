@@ -36,10 +36,10 @@ public class ResetPasswordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reset_password);
 
-        editNew = findViewById(R.id.editText_NewPassword);
-        editConfirm = findViewById(R.id.editText_ConfirmNewPassword);
-        buttonUpdate = findViewById(R.id.button_ResetPassword);
-        textBack = findViewById(R.id.textView_BackToLoginFromReset);
+        editNew = findViewById(R.id.et_new_password);
+        editConfirm = findViewById(R.id.et_confirm_new_password);
+        buttonUpdate = findViewById(R.id.btn_reset_password);
+        textBack = findViewById(R.id.tv_back_login_reset);
 
         apiService = (ApiService) RetrofitClient.getApiService();
         progressDialog = new ProgressDialog(this);

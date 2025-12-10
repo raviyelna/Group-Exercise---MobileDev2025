@@ -7,55 +7,48 @@
     <string name="section_updates">Recently Updated</string>
     <string name="greeting">Hello,</string>
     <string name="guest_name">Guest</string>
-
-    <!-- General -->
     <string name="app_name">MyApp</string>
     <string name="cd_logo">Logo</string>
     <string name="cd_avatar">Avatar</string>
-
-    <!-- Login -->
-    <string name="login">Login</string>
+    <string name="login">Log In</string>
     <string name="register">Register</string>
-    <string name="dont_have_account">Do not have an account?</string>
+    <string name="dont_have_account">Don not have an account?</string>
     <string name="hint_email">Email</string>
     <string name="hint_password">Password</string>
     <string name="forgot_password_query">Forgot password?</string>
-
-    <!-- Register -->
-    <string name="hint_full_name">Username</string>
+    <string name="hint_full_name">Enter your full name</string>
     <string name="hint_confirm_password">Confirm password</string>
     <string name="already_have_account">Already have an account?</string>
-
-    <!-- Forgot -->
-    <string name="forgot_password_title">Forgot password</string>
+    <string name="create_account">Create account</string>
+    <string name="forgot_password_title">Forgot Password</string>
     <string name="forgot_password_subtitle">Enter your email and we’ll send you reset instructions.</string>
-    <string name="send_instructions">Send instructions</string>
-    <string name="back_to_login">Back to login</string>
-
-    <!-- OTP -->
-    <string name="verify_account_title">Verify account</string>
-    <string name="otp_subtitle">Enter the 6-digit code sent to your email</string>
+    <string name="send_instructions">Send reset</string>
+    <string name="back_to_login">Back to Login</string>
+    <string name="verify_account_title">Enter Verification Code</string>
+    <string name="otp_subtitle">We have sent a 6-digit verification code to your email address. Please enter it below to proceed.</string>
     <string name="hint_enter_code">Enter code</string>
-    <string name="resend_code">Resend code</string>
+    <string name="resend_code">Resend Code</string>
     <string name="change_email">Change email</string>
     <string name="verify">Verify</string>
-
-    <!-- Reset -->
-    <string name="reset_password_title">Reset password</string>
+    <string name="reset_password_title">Reset Password</string>
     <string name="reset_password_subtitle">Enter your new password and confirm to update account.</string>
-    <string name="hint_new_password">New password</string>
-    <string name="update_password">Update password</string>
-
-    <!-- Account -->
+    <string name="hint_new_password">Enter your new password</string>
+    <string name="update_password">Reset password</string>
     <string name="title_account">Account</string>
     <string name="not_logged_in">Not logged in</string>
     <string name="level_1">Level 1</string>
     <string name="cd_icon">Icon</string>
-
-    <!-- Bottom navigation -->
     <string name="nav_home">Home</string>
-    <string name="nav_update">Updates</string>
     <string name="nav_chat">Chat</string>
-    <string name="nav_follow">Follow</string>
+    <string name="nav_updates">Updates</string>
+    <string name="nav_bookmarks">Bookmarks</string>
     <string name="nav_account">Account</string>
+    <string name="nav_recent">Updated</string>
+    <string name="nav_bookmark">Bookmarks</string>
+    <string name="action_read_chapter">Read Chapter</string>
+    <string name="action_continue">Continue</string>
+    <string name="action_remove">Remove</string>
+    <string name="action_logout">Log Out</string>
+    <string name="hint_search">Search comics</string>
+    <string name="hint_send_message">Send message…</string>
 </resources>
