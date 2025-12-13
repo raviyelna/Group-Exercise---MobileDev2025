@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingTop="12dp"
+    android:paddingBottom="12dp">
+
+    <TextView
+        android:id="@+id/tv_featured_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Featured Comics"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:layout_marginBottom="8dp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_featured_section"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:clipToPadding="false"
+        android:paddingStart="4dp"
+        android:paddingEnd="8dp"
+        android:overScrollMode="never"/>
+</LinearLayout>

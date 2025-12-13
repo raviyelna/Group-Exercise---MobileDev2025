@@ -14,7 +14,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitClient {
 
 //    public static final String BASE_URL = "https://midtermhehe.azurewebsites.net/";
-    public static final String BASE_URL = "http://10.0.2.2/midterm/";
+    public static final String BASE_URL = "http://localhost/api/";
 
     private static Retrofit retrofit = null;
 

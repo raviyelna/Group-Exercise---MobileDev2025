@@ -45,6 +45,8 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.android.volley:volley:1.2.1")
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01")
 
 // OkHttp logging (useful for debugging network calls)
     implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")

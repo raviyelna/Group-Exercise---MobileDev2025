@@ -10,45 +10,35 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="144dp">
 
         <ImageView
             android:id="@+id/story_cover"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_gravity="top"
-            android:adjustViewBounds="true"
-            android:scaleType="centerCrop"
+            android:layout_height="132dp"
             android:layout_marginBottom="72dp"
-            android:src="@drawable/ic_logo"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="72dp"
-            android:layout_gravity="bottom"
-            android:orientation="vertical"
-            android:gravity="center_vertical"
-            android:padding="10dp"
-            android:background="#22000000">
-
-            <TextView
-                android:id="@+id/story_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Story Title"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                android:textSize="16sp"
-                android:ellipsize="end"
-                android:maxLines="1"/>
-
-            <TextView
-                android:id="@+id/story_chapter"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Chapter 29"
-                android:textColor="@color/text_secondary"
-                android:textSize="12sp"/>
-        </LinearLayout>
+            android:scaleType="centerCrop" />
     </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="384dp"
+        android:layout_height="74dp"
+        android:layout_gravity="bottom"
+        android:background="#22000000"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/story_title"
+            android:layout_width="359dp"
+            android:layout_height="58dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="Story Title"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
 </androidx.cardview.widget.CardView>

@@ -1,25 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- res/layout/item_category.xml -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="72dp"
-    android:layout_height="72dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:gravity="center">
+    android:gravity="center"
+    android:padding="4dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginBottom="8dp">
 
     <ImageView
         android:id="@+id/img_category"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:src="@drawable/ic_category"
+        android:contentDescription="@null"
         android:background="@drawable/circle_background"
-        android:padding="10dp" />
+        android:padding="8dp"
+        android:visibility="gone" /> <!-- hidden by default; show if you wire icon -->
 
-    <TextView
-        android:id="@+id/tv_category"
+    <com.google.android.material.chip.Chip
+        android:id="@+id/chip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Action"
-        android:textColor="@color/white"
-        android:textSize="12sp"
-        android:layout_marginTop="4dp" />
-
+        android:textColor="@color/black"
+        android:textSize="13sp"
+        app:chipCornerRadius="16dp"
+        app:chipIconVisible="false" />
 </LinearLayout>

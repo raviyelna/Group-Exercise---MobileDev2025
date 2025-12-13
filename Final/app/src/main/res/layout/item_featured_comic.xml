@@ -1,18 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- res/layout/item_featured.xml -->
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card="http://schemas.android.com/apk/res-auto"
     android:layout_width="140dp"
-    android:layout_height="180dp"
-    android:layout_marginEnd="12dp"
-    app:cardCornerRadius="12dp"
-    app:cardUseCompatPadding="true"
-    app:cardBackgroundColor="@color/surface_dark">
+    android:layout_height="match_parent"
+    card:cardCornerRadius="8dp"
+    android:layout_marginEnd="8dp"
+    card:cardUseCompatPadding="true">
 
-    <ImageView
-        android:id="@+id/img_cover"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:src="@drawable/sample_cover" />
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/img_cover"
+            android:layout_width="match_parent"
+            android:layout_height="110dp"
+            android:scaleType="centerCrop"
+            android:contentDescription="@null" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:padding="6dp"
+            android:textColor="@color/black"
+            android:textSize="13sp" />
+    </LinearLayout>
 
 </androidx.cardview.widget.CardView>
