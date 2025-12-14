@@ -5,6 +5,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.android.volley.toolbox.HttpStack;
 import com.android.volley.toolbox.HurlStack;
+import com.android.volley.Request;
 
 public class NetworkSingleton {
     private static NetworkSingleton instance;
@@ -22,6 +23,11 @@ public class NetworkSingleton {
         }
         return instance;
     }
+
+    public <T> void addToRequestQueue(Request<T> req) {
+        getRequestQueue().add(req);
+    }
+
 
     public RequestQueue getRequestQueue() {
         if (requestQueue == null) {

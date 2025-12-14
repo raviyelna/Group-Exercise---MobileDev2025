@@ -43,27 +43,10 @@ public class RecentMangaAdapter extends RecyclerView.Adapter<RecentMangaAdapter.
     public void onBindViewHolder(VH h, int position) {
         RecentManga rm = list.get(position);
 
-        // Title
+        // Title (ONLY title)
         h.title.setText(rm.manga_title != null ? rm.manga_title : "");
 
-        // Compose up to 3 chapter lines (each on its own line)
-        StringBuilder sb = new StringBuilder();
-        int limit = Math.min(3, rm.chapters.size());
-        for (int i = 0; i < limit; i++) {
-            RecentChapter c = rm.chapters.get(i);
-            // show chapter name plus optional time (created_at)
-            String line = (c.chapter_name != null ? c.chapter_name : "");
-            if (c.created_at != null && !c.created_at.isEmpty()) {
-                // short format: keep original or you can format time-ago
-                line += " • " + c.created_at;
-            }
-            sb.append(line);
-            if (i < limit - 1) sb.append("\n");
-        }
-//        h.chapter.setMaxLines(3);
-//        h.chapter.setText(sb.toString());
-
-        // Cover
+        // Cover (ONLY cover)
         String cover = rm.manga_cover != null ? rm.manga_cover : "";
         if (!cover.isEmpty()) {
             Glide.with(ctx)
@@ -76,17 +59,14 @@ public class RecentMangaAdapter extends RecyclerView.Adapter<RecentMangaAdapter.
             h.cover.setImageResource(R.drawable.placeholder_cover);
         }
 
-        // Item click opens manga details
+        // Item click -> open manga
         h.itemView.setOnClickListener(v -> {
             if (listener != null) listener.onOpenManga(rm);
         });
 
-        // Read button: open the newest chapter (first in list) if present
+        // Read button -> open manga
         h.btnRead.setOnClickListener(v -> {
-            if (listener != null) {
-                if (!rm.chapters.isEmpty()) listener.onOpenChapter(rm, rm.chapters.get(0));
-                else listener.onOpenManga(rm);
-            }
+            if (listener != null) listener.onOpenManga(rm);
         });
     }
 

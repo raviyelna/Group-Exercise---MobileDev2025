@@ -1,4 +1,4 @@
-package com.example.comicreaderapp.ui.recent;
+package com.example.comicreaderapp.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,11 +15,6 @@ import com.example.comicreaderapp.manga_model.AllComic;
 import com.example.comicreaderapp.manga_model.AllComicsAdapter;
 import com.example.comicreaderapp.manga_model.NetworkSingleton;
 import com.example.comicreaderapp.readUI.MangaDetailActivity;
-import com.example.comicreaderapp.ui.account.AccountActivity;
-import com.example.comicreaderapp.ui.bookmarks.BookmarksActivity;
-import com.example.comicreaderapp.ui.chat.ChatActivity;
-import com.example.comicreaderapp.ui.home.HomeActivity;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -27,7 +22,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecentActivity extends AppCompatActivity {
+public class AllComicsActivity extends AppCompatActivity {
 
     private static final String API_URL =
             "http://10.0.2.2/api/getData/request.php?r=all_manga";
@@ -37,17 +32,8 @@ public class RecentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_comics);
 
-        setupBottomNav();
-        setupRecycler();
-    }
-
-    // ---------------- Recycler ----------------
-
-    private void setupRecycler() {
-
         RecyclerView rv = findViewById(R.id.rv_recent_full);
         rv.setLayoutManager(new LinearLayoutManager(this));
-        rv.setHasFixedSize(true);
 
         List<AllComic> list = new ArrayList<>();
 
@@ -107,36 +93,4 @@ public class RecentActivity extends AppCompatActivity {
                 .add(req);
     }
 
-    // ---------------- Bottom Nav ----------------
-
-    private void setupBottomNav() {
-
-        BottomNavigationView nav = findViewById(R.id.bottom_nav);
-        nav.setSelectedItemId(R.id.nav_recent); // ✅ MENU ID
-
-        nav.setOnItemSelectedListener(item -> {
-            int id = item.getItemId();
-
-            if (id == R.id.nav_home) {
-                startActivity(new Intent(this, HomeActivity.class));
-            }
-            else if (id == R.id.nav_account) {
-                startActivity(new Intent(this, AccountActivity.class));
-            }
-            else if (id == R.id.nav_recent) {
-                // already here → do nothing
-                return true;
-            }
-            else if (id == R.id.nav_bookmark) {
-                startActivity(new Intent(this, BookmarksActivity.class));
-            }
-            else if (id == R.id.nav_chat) {
-                startActivity(new Intent(this, ChatActivity.class));
-            }
-
-            overridePendingTransition(0, 0);
-            finish();
-            return true;
-        });
-    }
 }
