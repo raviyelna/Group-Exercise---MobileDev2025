@@ -25,6 +25,8 @@ import com.example.comicreaderapp.manga_model.NetworkSingleton;
 import com.example.comicreaderapp.manga_model.RecentChapter;
 import com.example.comicreaderapp.manga_model.RecentManga;
 import com.example.comicreaderapp.manga_model.RecentMangaAdapter;
+import com.example.comicreaderapp.readUI.MangaDetailActivity;
+import com.example.comicreaderapp.ui.reader.ComicReaderActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.example.comicreaderapp.ui.account.AccountActivity;
 import com.example.comicreaderapp.ui.bookmarks.BookmarksActivity;
@@ -136,7 +138,7 @@ public class HomeActivity extends AppCompatActivity {
     private void setupRecyclerViews() {
         // featured
         featuredAdapter = new FeaturedAdapter(this, featuredList, m -> {
-            Toast.makeText(HomeActivity.this, "Open: " + m.title, Toast.LENGTH_SHORT).show();
+            openMangaDetail(m.manga_id);
         });
         rvFeatured.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         rvFeatured.setAdapter(featuredAdapter);
@@ -153,17 +155,35 @@ public class HomeActivity extends AppCompatActivity {
         recentMangaAdapter = new RecentMangaAdapter(this, recentMangaList, new RecentMangaAdapter.OnClick() {
             @Override
             public void onOpenChapter(RecentManga manga, RecentChapter chapter) {
-                Toast.makeText(HomeActivity.this, "Open chapter: " + (chapter != null ? chapter.chapter_name : "chapter"), Toast.LENGTH_SHORT).show();
+                openReader(chapter.chapter_id, chapter.chapter_name, manga.manga_id);
             }
 
             @Override
             public void onOpenManga(RecentManga manga) {
-                Toast.makeText(HomeActivity.this, "Open manga: " + manga.manga_title, Toast.LENGTH_SHORT).show();
+                openMangaDetail(manga.manga_id);
             }
         });
         rvRecently.setLayoutManager(new LinearLayoutManager(this));
         rvRecently.setAdapter(recentMangaAdapter);
         rvRecently.setNestedScrollingEnabled(false);
+    }
+
+    private void openMangaDetail(String mangaId) {
+        if (mangaId == null || mangaId.isEmpty()) {
+            Toast.makeText(this, "Error: Invalid manga ID", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Intent intent = new Intent(this, MangaDetailActivity.class);
+        intent.putExtra("manga_id", mangaId);
+        startActivity(intent);
+    }
+
+    private void openReader(String chapterId, String chapterName, String mangaId) {
+        Intent intent = new Intent(this, ComicReaderActivity.class);
+        intent.putExtra("chapter_id", chapterId);
+        intent.putExtra("chapter_name", chapterName);
+        intent.putExtra("manga_id", mangaId);
+        startActivity(intent);
     }
 
     private void showProgress(ProgressBar p, boolean show) {

@@ -60,8 +60,8 @@ public class RecentMangaAdapter extends RecyclerView.Adapter<RecentMangaAdapter.
             sb.append(line);
             if (i < limit - 1) sb.append("\n");
         }
-        h.chapter.setMaxLines(3);
-        h.chapter.setText(sb.toString());
+//        h.chapter.setMaxLines(3);
+//        h.chapter.setText(sb.toString());
 
         // Cover
         String cover = rm.manga_cover != null ? rm.manga_cover : "";
@@ -94,14 +94,15 @@ public class RecentMangaAdapter extends RecyclerView.Adapter<RecentMangaAdapter.
 
     static class VH extends RecyclerView.ViewHolder {
         ImageView cover;
-        TextView title, chapter;
+        TextView title;
+        //TextView chapter;
         Button btnRead;
 
         VH(View itemView) {
             super(itemView);
             cover = itemView.findViewById(R.id.img_recent_cover);
             title = itemView.findViewById(R.id.tv_recent_title);
-            chapter = itemView.findViewById(R.id.tv_recent_chapter);
+            //chapter = itemView.findViewById(R.id.tv_recent_chapter);
             btnRead = itemView.findViewById(R.id.btn_read);
         }
     }

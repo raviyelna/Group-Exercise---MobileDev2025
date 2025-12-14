@@ -1,6 +1,7 @@
 package com.example.comicreaderapp.manga_model;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.comicreaderapp.R;
+import com.example.comicreaderapp.readUI.MangaDetailActivity;
 
 import java.util.List;
 
@@ -78,7 +80,8 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             FeaturedAdapter adapter =
                     new FeaturedAdapter(ctx, featuredList, manga -> {
-                        // open manga detail
+                        // Open manga detail - navigate to MangaDetailActivity
+                        openMangaDetail(manga.manga_id);
                     });
 
             v.rv.setLayoutManager(
@@ -93,7 +96,8 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             CategoryAdapter adapter =
                     new CategoryAdapter(categories, category -> {
-                        // open category
+                        // TODO: open category listing
+                        // You can create a CategoryActivity later
                     });
 
             v.rv.setLayoutManager(
@@ -113,12 +117,14 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                             new RecentMangaAdapter.OnClick() {
                                 @Override
                                 public void onOpenChapter(RecentManga manga, RecentChapter chapter) {
-                                    // open reader
+                                    // Open reader directly with chapter
+                                    openReader(chapter.chapter_id, chapter.chapter_name, manga.manga_id);
                                 }
 
                                 @Override
                                 public void onOpenManga(RecentManga manga) {
-                                    // open manga detail
+                                    // Open manga detail
+                                    openMangaDetail(manga.manga_id);
                                 }
                             }
                     );
@@ -126,6 +132,40 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             v.rv.setLayoutManager(new LinearLayoutManager(ctx));
             v.rv.setAdapter(adapter);
         }
+    }
+
+    /**
+     * Navigate to MangaDetailActivity
+     */
+    private void openMangaDetail(String mangaId) {
+        android.util.Log.d("HomeAdapter", "Opening manga with ID: " + mangaId);
+
+        if (mangaId == null || mangaId.isEmpty()) {
+            android.util.Log.e("HomeAdapter", "Manga ID is null or empty!");
+            android.widget.Toast.makeText(ctx, "Error: Invalid manga ID", android.widget.Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        try {
+            Intent intent = new Intent(ctx, MangaDetailActivity.class);
+            intent.putExtra("manga_id", mangaId);
+            ctx.startActivity(intent);
+            android.util.Log.d("HomeAdapter", "Intent started successfully");
+        } catch (Exception e) {
+            android.util.Log.e("HomeAdapter", "Error starting activity: " + e.getMessage());
+            android.widget.Toast.makeText(ctx, "Error: " + e.getMessage(), android.widget.Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    /**
+     * Navigate directly to ComicReaderActivity
+     */
+    private void openReader(String chapterId, String chapterName, String mangaId) {
+        Intent intent = new Intent(ctx, com.example.comicreaderapp.ui.reader.ComicReaderActivity.class);
+        intent.putExtra("chapter_id", chapterId);
+        intent.putExtra("chapter_name", chapterName);
+        intent.putExtra("manga_id", mangaId);
+        ctx.startActivity(intent);
     }
 
     // ================= ViewHolders =================

@@ -15,6 +15,7 @@
         android:gravity="center_vertical"
         android:paddingStart="12dp"
         android:paddingEnd="12dp"
+        android:background="@color/bg_dark"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -46,18 +47,26 @@
             android:tint="@color/white" />
     </LinearLayout>
 
-    <!-- Page Image -->
-    <ImageView
-        android:id="@+id/img_page"
+    <!-- Scrollable Page Image -->
+    <ScrollView
+        android:id="@+id/scroll_view_page"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:scaleType="fitCenter"
-        android:adjustViewBounds="true"
-        android:src="@drawable/sample_page"
+        android:fillViewport="true"
+        android:scrollbars="vertical"
         app:layout_constraintTop_toBottomOf="@id/reader_top_bar"
         app:layout_constraintBottom_toTopOf="@id/reader_bottom_bar"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:id="@+id/img_page"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:scaleType="fitStart"
+            android:src="@drawable/sample_page" />
+    </ScrollView>
 
     <!-- Bottom bar -->
     <LinearLayout

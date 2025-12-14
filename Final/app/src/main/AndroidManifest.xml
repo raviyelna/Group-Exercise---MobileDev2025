@@ -28,6 +28,18 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".readUI.MangaDetailActivity"
+            android:exported="false"
+            android:parentActivityName=".MainActivity" />
+
+
+        <activity
+            android:name=".ui.reader.ComicReaderActivity"
+            android:exported="false"
+            android:parentActivityName=".readUI.MangaDetailActivity" />
+        <activity android:name=".readUI.ReaderActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <activity android:name=".ui.auth.RegisterActivity" />
         <activity android:name=".ui.auth.OtpAuthActivity" />
         <activity android:name=".ui.auth.LoginActivity" />
