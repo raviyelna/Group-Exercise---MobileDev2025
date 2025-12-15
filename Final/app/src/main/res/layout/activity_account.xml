@@ -51,7 +51,7 @@
                         android:id="@+id/tv_user_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Alex Johnson"
+                        android:text="Anonymous User"
                         android:textColor="@color/white"
                         android:textSize="16sp"
                         android:textStyle="bold" />
@@ -60,7 +60,7 @@
                         android:id="@+id/tv_user_email"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="alex.johnson@example.com"
+                        android:text="Anonymous@example.com"
                         android:textColor="@color/text_secondary"
                         android:textSize="13sp" />
                 </LinearLayout>
@@ -136,13 +136,13 @@
             </androidx.cardview.widget.CardView>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_logout"
+                android:id="@+id/btn"
                 style="@style/Widget.MaterialComponents.Button"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/button_height"
                 android:layout_marginTop="20dp"
                 android:backgroundTint="@color/error_red"
-                android:text="Log Out"
+                android:text="Log In"
                 android:textColor="@color/white" />
 
         </LinearLayout>

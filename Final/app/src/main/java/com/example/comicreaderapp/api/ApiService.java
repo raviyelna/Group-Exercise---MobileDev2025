@@ -8,6 +8,8 @@ import com.example.comicreaderapp.model.ResetPasswordRequest;
 import com.example.comicreaderapp.model.VerifyOtpRequest;
 import com.example.comicreaderapp.model.VerifyOtpResponse;
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.*;
 
@@ -27,4 +29,16 @@ public interface ApiService {
 
     @POST("api.php")
     Call<GenericResponse> register(@Query("action") String action, @Body RegisterRequest body);
+
+    @Multipart
+    @POST("api.php")
+    Call<GenericResponse> updateProfile(
+            @Query("action") String action,
+            @Part("username") RequestBody username,
+            @Part MultipartBody.Part avatar
+    );
+
+
+
+
 }

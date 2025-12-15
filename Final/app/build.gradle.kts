@@ -47,7 +47,11 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.android.volley:volley:1.2.1")
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01")
-
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
+    implementation("com.squareup.okhttp3:okhttp-urlconnection:4.12.0")
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
 // OkHttp logging (useful for debugging network calls)
     implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
 
