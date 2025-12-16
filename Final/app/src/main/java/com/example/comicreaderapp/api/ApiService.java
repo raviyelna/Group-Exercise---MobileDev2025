@@ -35,8 +35,10 @@ public interface ApiService {
     Call<GenericResponse> updateProfile(
             @Query("action") String action,
             @Part("username") RequestBody username,
+            @Part("avatar_link") RequestBody avatarLink,
             @Part MultipartBody.Part avatar
     );
+
 
 
 

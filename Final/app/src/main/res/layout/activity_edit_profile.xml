@@ -35,18 +35,35 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!-- Save button -->
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_save"
+    <EditText
+        android:id="@+id/LinkProfilePicture"
         android:layout_width="0dp"
-        android:layout_height="@dimen/button_height"
-        android:layout_marginTop="28dp"
-        android:text="Save"
-        android:textAllCaps="false"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:hint="Link Profile Picute instead of uploading"
         android:textColor="@color/white"
-        android:backgroundTint="@color/white"
-        app:layout_constraintTop_toBottomOf="@id/edt_username"
+        android:textColorHint="@color/text_secondary"
+        android:padding="12dp"
+        android:inputType="textPersonName"
+        app:layout_constraintTop_toBottomOf="@id/img_avatar_edit"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_save"
+        android:layout_width="130dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="68dp"
+        android:backgroundTint="@color/white"
+        android:text="Save"
+        android:textAllCaps="false"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edt_username"
+        app:layout_constraintVertical_bias="0.023" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
