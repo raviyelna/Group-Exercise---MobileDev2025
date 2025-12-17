@@ -40,7 +40,7 @@ public class RetrofitClient {
 
             OkHttpClient client = new OkHttpClient.Builder()
                     .addInterceptor(logging)
-                    .cookieJar(new JavaNetCookieJar(cookieManager)) // ✅ IMPORTANT
+                    .cookieJar(new JavaNetCookieJar(cookieManager))
                     .connectTimeout(30, TimeUnit.SECONDS)
                     .readTimeout(30, TimeUnit.SECONDS)
                     .writeTimeout(30, TimeUnit.SECONDS)
@@ -55,6 +55,17 @@ public class RetrofitClient {
 
         return retrofit.create(ApiService.class);
     }
+
+    public static Retrofit getInstance() {
+        if (retrofit == null) {
+            retrofit = new Retrofit.Builder()
+                    .baseUrl(BASE_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+        }
+        return retrofit;
+    }
+
 }
 
 
