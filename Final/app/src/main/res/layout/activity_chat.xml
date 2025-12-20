@@ -53,6 +53,7 @@
     <!-- Input bar -->
     <LinearLayout
         android:id="@+id/chat_input_bar"
+        android:visibility="gone"
         android:layout_width="0dp"
         android:layout_height="56dp"
         android:orientation="horizontal"

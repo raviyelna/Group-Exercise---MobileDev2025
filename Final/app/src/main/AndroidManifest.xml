@@ -43,6 +43,8 @@
         <activity
             android:name=".ui.profile.EditProfileActivity"
             android:exported="false" />
+
+
         <activity android:name=".ui.auth.RegisterActivity" />
         <activity android:name=".ui.auth.OtpAuthActivity" />
         <activity android:name=".ui.auth.LoginActivity" />

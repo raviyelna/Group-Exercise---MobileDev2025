@@ -2,8 +2,11 @@ package com.example.comicreaderapp.api;
 
 import com.example.comicreaderapp.model.Conversation;
 import com.example.comicreaderapp.model.Message;
+import com.example.comicreaderapp.model.MiniProfileUser;
+import com.example.comicreaderapp.model.User;
 
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -24,7 +27,18 @@ public interface ChatApi {
     );
 
     @POST("chatroom/api.php?action=send_message")
-    Call<Void> sendMessage(
-            @Body SendMessageBody body
+    Call<Map<String, Object>> sendMessage(@Body SendMessageBody body);
+
+    @GET("chatroom/api.php?action=get_public_profile")
+    Call<MiniProfileUser> getUserProfile(@Query("user_id") String userId);
+
+    @GET("chatroom/api.php?action=get_or_create_dm")
+    Call<Map<String, Object>> getOrCreateDM(
+            @Query("user_a") String userA,
+            @Query("user_b") String userB
     );
+
+
+
+
 }

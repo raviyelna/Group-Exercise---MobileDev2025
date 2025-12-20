@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="user_avatar">User avatar</string>
+    <string name="anonymous_user">Anonymous User</string>
+    <string name="anonymous_email">Anonymous@example.com</string>
+    <string name="message">Message</string>
     <string name="ad_label">Advertisement</string>
     <string name="follow_prompt">You must log in to follow this comic</string>
     <string name="chat_title">Messages</string>

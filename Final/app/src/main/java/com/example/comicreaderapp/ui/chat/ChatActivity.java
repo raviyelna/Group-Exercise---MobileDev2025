@@ -3,6 +3,10 @@ package com.example.comicreaderapp.ui.chat;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -11,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.comicreaderapp.R;
 import com.example.comicreaderapp.api.ChatApi;
 import com.example.comicreaderapp.api.RetrofitClient;
+import com.example.comicreaderapp.api.SendMessageBody;
 import com.example.comicreaderapp.model.Conversation;
 import com.example.comicreaderapp.model.Message;
 import com.example.comicreaderapp.ui.account.AccountActivity;
@@ -20,7 +25,9 @@ import com.example.comicreaderapp.ui.home.HomeActivity;
 import com.example.comicreaderapp.ui.recent.RecentActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,12 +39,19 @@ public class ChatActivity extends AppCompatActivity {
     ChatApi api;
     String myUserId;
 
+    LinearLayout inputBar;
+    EditText etMessage;
+    ImageButton btnSend;
+
+    int currentConversationId = -1;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
-        // 🔐 Get logged-in user
         SessionManager session = new SessionManager(this);
 
         if (!session.isLoggedIn()) {
@@ -46,9 +60,13 @@ public class ChatActivity extends AppCompatActivity {
             return;
         }
 
-        this.myUserId = session.getUserId();
-        //Log.d("CHAT_DEBUG", "myUserId = " + myUserId);
+        myUserId = session.getUserId();
 
+        inputBar = findViewById(R.id.chat_input_bar);
+        etMessage = findViewById(R.id.et_message);
+        btnSend = findViewById(R.id.btn_send);
+
+        inputBar.setVisibility(View.GONE);
 
         rv = findViewById(R.id.rv_messages);
         rv.setLayoutManager(new LinearLayoutManager(this));
@@ -57,7 +75,36 @@ public class ChatActivity extends AppCompatActivity {
 
         setupBottomNav();
         loadConversations();
+
+        btnSend.setOnClickListener(v -> {
+            String text = etMessage.getText().toString().trim();
+            if (text.isEmpty() || currentConversationId == -1) return;
+
+            SendMessageBody body = new SendMessageBody(
+                    String.valueOf(currentConversationId),
+                    myUserId,
+                    text
+            );
+
+            api.sendMessage(body).enqueue(new Callback<Map<String, Object>>() {
+                @Override
+                public void onResponse(Call<Map<String, Object>> call,
+                                       Response<Map<String, Object>> res) {
+                    if (res.isSuccessful()) {
+                        etMessage.setText("");
+                        openChat(currentConversationId);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Map<String, Object>> call, Throwable t) {
+                    t.printStackTrace();
+                }
+            });
+        });
+
     }
+
 
     private void setupBottomNav() {
         BottomNavigationView nav = findViewById(R.id.bottom_nav);
@@ -89,6 +136,8 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<Conversation>> call,
                                    Response<List<Conversation>> res) {
+
+
                 if (res.isSuccessful() && res.body() != null) {
                     rv.setAdapter(new ConversationAdapter(res.body(), c -> {
                         openChat(c.conversationId);
@@ -104,12 +153,16 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     void openChat(int conversationId) {
+        currentConversationId = conversationId;
+        inputBar.setVisibility(View.VISIBLE);
+
         api.getMessages(conversationId).enqueue(new Callback<List<Message>>() {
             @Override
             public void onResponse(Call<List<Message>> call,
                                    Response<List<Message>> res) {
                 if (res.isSuccessful() && res.body() != null) {
-                    rv.setAdapter(new MessageAdapter(res.body(), myUserId));
+                    rv.setAdapter(new MessageAdapter(ChatActivity.this, res.body()));
+                    rv.scrollToPosition(res.body().size() - 1);
                 }
             }
 
@@ -118,5 +171,9 @@ public class ChatActivity extends AppCompatActivity {
                 t.printStackTrace();
             }
         });
+
+
     }
+
+
 }

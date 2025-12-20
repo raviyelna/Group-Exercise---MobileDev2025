@@ -13,11 +13,7 @@ import okhttp3.Response;
 import okhttp3.CookieJar;
 import okhttp3.JavaNetCookieJar;
 
-import java.net.CookieManager;
-import java.net.CookiePolicy;
-
 import okhttp3.logging.HttpLoggingInterceptor;
-import okhttp3.JavaNetCookieJar;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -25,16 +21,19 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitClient {
 
     public static final String BASE_URL = "http://10.0.2.2/api/";
-    private static Retrofit retrofit = null;
+
+    private static Retrofit loggingRetrofit;
+    private static Retrofit plainRetrofit;
 
     public static ApiService getApiService() {
+        if (loggingRetrofit == null) {
 
-        if (retrofit == null) {
-
-            HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+            HttpLoggingInterceptor logging =
+                    new HttpLoggingInterceptor(msg ->
+                            android.util.Log.d("OKHTTP_HTTP", msg)
+                    );
             logging.setLevel(HttpLoggingInterceptor.Level.BODY);
 
-            // ✅ COOKIE MANAGER (THIS IS THE KEY)
             CookieManager cookieManager = new CookieManager();
             cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
 
@@ -46,26 +45,31 @@ public class RetrofitClient {
                     .writeTimeout(30, TimeUnit.SECONDS)
                     .build();
 
-            retrofit = new Retrofit.Builder()
+            loggingRetrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .client(client)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }
 
-        return retrofit.create(ApiService.class);
+        return loggingRetrofit.create(ApiService.class);
+    }
+
+    public static Retrofit getLoggingRetrofit() {
+        if (loggingRetrofit == null) {
+            getApiService();
+        }
+        return loggingRetrofit;
     }
 
     public static Retrofit getInstance() {
-        if (retrofit == null) {
-            retrofit = new Retrofit.Builder()
+        if (plainRetrofit == null) {
+            plainRetrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }
-        return retrofit;
+        return plainRetrofit;
     }
-
 }
-
 
