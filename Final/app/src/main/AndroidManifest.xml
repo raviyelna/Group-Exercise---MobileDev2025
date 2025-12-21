@@ -43,7 +43,9 @@
         <activity
             android:name=".ui.profile.EditProfileActivity"
             android:exported="false" />
-
+        <activity
+            android:name=".ui.auth.VerifyOtpActivity"
+            android:exported="false" />
 
         <activity android:name=".ui.auth.RegisterActivity" />
         <activity android:name=".ui.auth.OtpAuthActivity" />

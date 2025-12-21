@@ -78,7 +78,7 @@
                         android:gravity="center"
                         android:layout_marginBottom="12dp">
 
-                        <TextView
+                        <EditText
                             android:id="@+id/otp_box1"
                             android:layout_width="44dp"
                             android:layout_height="48dp"
@@ -88,7 +88,7 @@
                             android:textSize="18sp"
                             android:layout_margin="6dp"/>
 
-                        <TextView
+                        <EditText
                             android:id="@+id/otp_box2"
                             android:layout_width="44dp"
                             android:layout_height="48dp"
@@ -98,7 +98,7 @@
                             android:textSize="18sp"
                             android:layout_margin="6dp"/>
 
-                        <TextView
+                        <EditText
                             android:id="@+id/otp_box3"
                             android:layout_width="44dp"
                             android:layout_height="48dp"
@@ -108,7 +108,7 @@
                             android:textSize="18sp"
                             android:layout_margin="6dp"/>
 
-                        <TextView
+                        <EditText
                             android:id="@+id/otp_box4"
                             android:layout_width="44dp"
                             android:layout_height="48dp"
@@ -118,7 +118,7 @@
                             android:textSize="18sp"
                             android:layout_margin="6dp"/>
 
-                        <TextView
+                        <EditText
                             android:id="@+id/otp_box5"
                             android:layout_width="44dp"
                             android:layout_height="48dp"
@@ -128,7 +128,7 @@
                             android:textSize="18sp"
                             android:layout_margin="6dp"/>
 
-                        <TextView
+                        <EditText
                             android:id="@+id/otp_box6"
                             android:layout_width="44dp"
                             android:layout_height="48dp"

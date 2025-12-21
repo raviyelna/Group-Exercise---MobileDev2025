@@ -18,9 +18,12 @@ import com.example.comicreaderapp.viewmodel.AuthViewModel;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
 
+import android.widget.TextView;
+
 public class LoginActivity extends AppCompatActivity {
 
     private TextInputEditText editEmail, editPassword;
+    private TextView registerlink, forgotlink;
     private Button buttonLogin;
     private ProgressDialog progressDialog;
     private AuthViewModel authViewModel;
@@ -36,6 +39,8 @@ public class LoginActivity extends AppCompatActivity {
         editEmail = findViewById(R.id.et_email);
         editPassword = findViewById(R.id.et_password);
         buttonLogin = findViewById(R.id.btn_login);
+        registerlink = findViewById(R.id.tv_register_link);
+        forgotlink = findViewById(R.id.tv_forgot);
 
         // Progress
         progressDialog = new ProgressDialog(this);
@@ -97,6 +102,14 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             authViewModel.login(email, password);
+        });
+
+        registerlink.setOnClickListener(v -> {
+            startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+        });
+
+        forgotlink.setOnClickListener(v -> {
+            startActivity(new Intent(LoginActivity.this, ForgotPasswordActivity.class));
         });
     }
 

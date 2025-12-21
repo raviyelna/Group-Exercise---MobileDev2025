@@ -19,7 +19,10 @@ public interface ApiService {
     Call<GenericResponse> forgotPassword(@Query("action") String action, @Body ForgotPasswordRequest body);
 
     @POST("api.php")
-    Call<VerifyOtpResponse> verifyOtp(@Query("action") String action, @Body VerifyOtpRequest body);
+    Call<VerifyOtpResponse> verifyOtp(
+            @Query("action") String action,
+            @Body VerifyOtpRequest body
+    );
 
     @POST("api.php")
     Call<GenericResponse> resetPassword(@Query("action") String action, @Body ResetPasswordRequest body);

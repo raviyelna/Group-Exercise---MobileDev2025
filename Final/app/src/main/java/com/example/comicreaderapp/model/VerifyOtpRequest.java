@@ -1,6 +1,6 @@
 package com.example.comicreaderapp.model;
 
-public class VerifyOtpRequest {
+public class VerifyOtpRequest  {
     private String email;
     private String otp;
 

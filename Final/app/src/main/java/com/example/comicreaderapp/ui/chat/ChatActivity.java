@@ -67,7 +67,7 @@ public class ChatActivity extends AppCompatActivity {
         btnSend = findViewById(R.id.btn_send);
 
         inputBar.setVisibility(View.GONE);
-
+        ImageButton btnBack = findViewById(R.id.btn_back);
         rv = findViewById(R.id.rv_messages);
         rv.setLayoutManager(new LinearLayoutManager(this));
 
@@ -102,6 +102,21 @@ public class ChatActivity extends AppCompatActivity {
                 }
             });
         });
+
+
+
+        btnBack.setOnClickListener(v -> {
+            if (currentConversationId != -1) {
+                // If currently inside a chat → go back to conversation list
+                currentConversationId = -1;
+                inputBar.setVisibility(View.GONE);
+                loadConversations();
+            } else {
+                // Otherwise → exit ChatActivity
+                finish();
+            }
+        });
+
 
     }
 
