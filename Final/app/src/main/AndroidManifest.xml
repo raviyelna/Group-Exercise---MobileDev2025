@@ -56,6 +56,7 @@
         <activity android:name=".ui.bookmarks.BookmarksActivity" />
         <activity android:name=".ui.chat.ChatActivity" />
         <activity android:name=".ui.account.AccountActivity" />
+        <activity android:name=".ui.genre.GenreMangaActivity"/>
 
         <meta-data
             android:name="preloaded_fonts"
