@@ -1,5 +1,7 @@
 package com.example.comicreaderapp.api;
 
+import com.example.comicreaderapp.model.Bookmark;
+import com.example.comicreaderapp.model.BookmarkResponse;
 import com.example.comicreaderapp.model.ForgotPasswordRequest;
 import com.example.comicreaderapp.model.GenericResponse;
 import com.example.comicreaderapp.model.LoginRequest;
@@ -7,6 +9,8 @@ import com.example.comicreaderapp.model.RegisterRequest;
 import com.example.comicreaderapp.model.ResetPasswordRequest;
 import com.example.comicreaderapp.model.VerifyOtpRequest;
 import com.example.comicreaderapp.model.VerifyOtpResponse;
+
+import java.util.List;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -41,6 +45,13 @@ public interface ApiService {
             @Part("avatar_link") RequestBody avatarLink,
             @Part MultipartBody.Part avatar
     );
+
+    @GET("getData/request.php")
+    Call<BookmarkResponse> getBookmarks(
+            @Query("r") String type,
+            @Query("user_id") String userId
+    );
+
 
 
 

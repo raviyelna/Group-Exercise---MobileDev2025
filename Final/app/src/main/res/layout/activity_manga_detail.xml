@@ -7,8 +7,10 @@
     android:background="@color/bg_dark">
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll_root"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:fillViewport="true"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -19,14 +21,38 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- Cover -->
-            <ImageView
-                android:id="@+id/img_manga_cover"
+            <!-- ===== COVER + BOOKMARK ===== -->
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="260dp"
-                android:scaleType="centerCrop" />
+                android:layout_height="260dp">
 
-            <!-- Title -->
+                <ImageView
+                    android:id="@+id/img_manga_cover"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:contentDescription="@null" />
+
+                <FrameLayout
+                    android:layout_width="60dp"
+                    android:layout_height="239dp"
+                    android:layout_gravity="top|end"
+                    android:layout_margin="12dp">
+
+                    <ImageView
+                        android:id="@+id/btn_bookmark"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_gravity="top|center_horizontal"
+                        android:layout_marginTop="200dp"
+                        android:src="@drawable/ic_bookmark"
+                        android:tint="@color/white"
+                        android:clickable="true"
+                        android:focusable="true" />
+                </FrameLayout>
+            </FrameLayout>
+
+            <!-- ===== TITLE ===== -->
             <TextView
                 android:id="@+id/tv_manga_title"
                 android:layout_width="match_parent"
@@ -36,32 +62,38 @@
                 android:textStyle="bold"
                 android:padding="12dp" />
 
-            <!-- Status -->
+            <!-- ===== STATUS ===== -->
             <TextView
                 android:id="@+id/tv_manga_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:paddingStart="12dp" />
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:paddingStart="12dp"
+                android:paddingBottom="4dp" />
 
-            <!-- Genres -->
+            <!-- ===== GENRES ===== -->
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/chip_group_genres"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="12dp"
-                app:singleLine="false" />
+                app:singleLine="false"
+                app:chipSpacing="8dp" />
 
-            <!-- Description -->
+            <!-- ===== DESCRIPTION ===== -->
             <TextView
                 android:id="@+id/tv_manga_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
+                android:textSize="14sp"
+                android:lineSpacingExtra="4dp"
                 android:padding="12dp" />
 
-            <!-- Chapters title -->
+            <!-- ===== CHAPTER TITLE ===== -->
             <TextView
+                android:id="@+id/tv_chapters_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Chapters"
@@ -70,12 +102,13 @@
                 android:textColor="@color/white"
                 android:padding="12dp" />
 
-            <!-- Chapter list -->
+            <!-- ===== CHAPTER LIST ===== -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_chapters"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="false" />
+                android:nestedScrollingEnabled="false"
+                android:paddingBottom="12dp" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

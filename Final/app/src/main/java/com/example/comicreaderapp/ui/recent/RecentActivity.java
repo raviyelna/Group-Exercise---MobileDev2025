@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RecentActivity extends AppCompatActivity {
-
+// this is actually all manga section but Im too lazy to refactor this shit :>
     private static final String API_URL =
             "http://10.0.2.2/api/getData/request.php?r=all_manga";
 
@@ -124,7 +124,6 @@ public class RecentActivity extends AppCompatActivity {
                 startActivity(new Intent(this, AccountActivity.class));
             }
             else if (id == R.id.nav_recent) {
-                // already here → do nothing
                 return true;
             }
             else if (id == R.id.nav_bookmark) {

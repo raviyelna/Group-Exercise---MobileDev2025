@@ -26,6 +26,7 @@ import com.example.comicreaderapp.manga_model.RecentChapter;
 import com.example.comicreaderapp.manga_model.RecentManga;
 import com.example.comicreaderapp.manga_model.RecentMangaAdapter;
 import com.example.comicreaderapp.readUI.MangaDetailActivity;
+import com.example.comicreaderapp.ui.genre.GenreMangaActivity;
 import com.example.comicreaderapp.ui.reader.ComicReaderActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.example.comicreaderapp.ui.account.AccountActivity;
@@ -78,25 +79,21 @@ public class HomeActivity extends AppCompatActivity {
             if (id == R.id.nav_recent) {
                 startActivity(new Intent(this, RecentActivity.class));
                 overridePendingTransition(0,0);
-                finish();
                 return true;
             }
             if (id == R.id.nav_bookmark) {
                 startActivity(new Intent(this, BookmarksActivity.class));
                 overridePendingTransition(0,0);
-                finish();
                 return true;
             }
             if (id == R.id.nav_account) {
                 startActivity(new Intent(this, AccountActivity.class));
                 overridePendingTransition(0,0);
-                finish();
                 return true;
             }
             if (id == R.id.nav_chat) {
                 startActivity(new Intent(this, ChatActivity.class));
                 overridePendingTransition(0,0);
-                finish();
                 return true;
             }
             return false;
@@ -145,8 +142,12 @@ public class HomeActivity extends AppCompatActivity {
 
         // categories
         categoryAdapter = new CategoryAdapter(categories, c -> {
-            Toast.makeText(HomeActivity.this, "Category: " + c.name + " (" + c.id + ")", Toast.LENGTH_SHORT).show();
+            Intent i = new Intent(HomeActivity.this, GenreMangaActivity.class);
+            i.putExtra("genre_id", c.id);
+            i.putExtra("genre_name", c.name);
+            startActivity(i);
         });
+
         rvCategories.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         rvCategories.setAdapter(categoryAdapter);
         rvCategories.setNestedScrollingEnabled(false);
