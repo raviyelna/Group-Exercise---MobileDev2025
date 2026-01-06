@@ -1,14 +1,12 @@
-<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.comicreaderapp">
 
-    <!-- network permissions -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:name=".ComicReaderApp"
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -20,7 +18,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
 
-        <!-- Launcher activity must be an Activity (MainActivity), not the Application class -->
+        <!-- HOME / LAUNCHER -->
         <activity
             android:name=".ui.home.HomeActivity"
             android:exported="true">
@@ -30,29 +28,21 @@
             </intent-filter>
         </activity>
 
-        <!-- Other activities -->
         <activity
             android:name=".readUI.MangaDetailActivity"
             android:exported="false"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".ui.home.HomeActivity" />
 
         <activity
             android:name=".ui.reader.ComicReaderActivity"
             android:exported="false"
             android:parentActivityName=".readUI.MangaDetailActivity" />
 
-        <activity
-            android:name=".readUI.ReaderActivity"
+        <activity android:name=".readUI.ReaderActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
 
-        <activity
-            android:name=".ui.profile.EditProfileActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".ui.auth.VerifyOtpActivity"
-            android:exported="false" />
-
+        <activity android:name=".ui.profile.EditProfileActivity" />
+        <activity android:name=".ui.auth.VerifyOtpActivity" />
         <activity android:name=".ui.auth.RegisterActivity" />
         <activity android:name=".ui.auth.OtpAuthActivity" />
         <activity android:name=".ui.auth.LoginActivity" />
@@ -63,6 +53,10 @@
         <activity android:name=".ui.chat.ChatActivity" />
         <activity android:name=".ui.account.AccountActivity" />
         <activity android:name=".ui.genre.GenreMangaActivity" />
+
+        <activity
+            android:name=".ui.search.SearchActivity"
+            android:exported="false" />
 
         <meta-data
             android:name="preloaded_fonts"

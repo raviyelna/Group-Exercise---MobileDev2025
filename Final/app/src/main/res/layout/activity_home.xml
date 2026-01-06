@@ -47,6 +47,20 @@
                         android:textSize="22sp"
                         android:textStyle="bold" />
 
+                    <!-- SEARCH INPUT (ẨN MẶC ĐỊNH) -->
+                    <EditText
+                        android:id="@+id/et_search"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:hint="Search manga..."
+                        android:padding="8dp"
+                        android:background="@drawable/bg_search"
+                        android:textColor="@color/white"
+                        android:textColorHint="#80FFFFFF"
+                        android:visibility="gone"
+                        android:singleLine="true" />
+
                     <ImageButton
                         android:id="@+id/btn_search"
                         android:layout_width="32dp"
@@ -120,8 +134,8 @@
                         android:id="@+id/rv_categories"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:clipToPadding="false"
                         android:nestedScrollingEnabled="true"
+                        android:clipToPadding="false"
                         android:paddingLeft="4dp"
                         android:paddingRight="8dp"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />

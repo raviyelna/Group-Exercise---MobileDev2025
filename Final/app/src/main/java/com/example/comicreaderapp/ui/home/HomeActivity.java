@@ -27,6 +27,7 @@ import com.example.comicreaderapp.manga_model.RecentMangaAdapter;
 import com.example.comicreaderapp.readUI.MangaDetailActivity;
 import com.example.comicreaderapp.ui.genre.GenreMangaActivity;
 import com.example.comicreaderapp.ui.reader.ComicReaderActivity;
+import com.example.comicreaderapp.ui.search.SearchActivity;
 import com.example.comicreaderapp.utils.BottomNavUtils;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -99,6 +100,11 @@ public class HomeActivity extends AppCompatActivity {
 
         // UI init
         ImageButton btnSearch = findViewById(R.id.btn_search);
+        btnSearch.bringToFront();
+
+        btnSearch.setOnClickListener(v -> {
+            startActivity(new Intent(this, SearchActivity.class));
+        });
         TextView tvTitle = findViewById(R.id.tv_home_title);
 
         rvFeatured = findViewById(R.id. rv_featured);
