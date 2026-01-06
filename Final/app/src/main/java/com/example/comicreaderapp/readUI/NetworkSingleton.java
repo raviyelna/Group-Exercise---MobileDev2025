@@ -1,32 +1,39 @@
 package com.example.comicreaderapp.readUI;
 
 import android.content.Context;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
-import com.android.volley.toolbox.HttpStack;
-import com.android.volley.toolbox.HurlStack;
 
+import com.example.comicreaderapp.api.LegacyApi;
+import com.example.comicreaderapp.api.RetrofitClient;
+
+import retrofit2.Retrofit;
+
+/**
+ * NOTE: Originally this class provided a Volley RequestQueue.
+ * After migrating activities to Retrofit, this helper now provides
+ * a Retrofit-based access point for legacy endpoints (LegacyApi).
+ *
+ * You can replace usages with RetrofitClient.getInstance().create(LegacyApi.class)
+ * or keep using this singleton to obtain LegacyApi.
+ */
 public class NetworkSingleton {
     private static NetworkSingleton instance;
-    private RequestQueue requestQueue;
+    private LegacyApi legacyApi;
     private static Context ctx;
 
     private NetworkSingleton(Context context) {
         ctx = context.getApplicationContext();
-        requestQueue = getRequestQueue();
+        Retrofit retrofit = RetrofitClient.getInstance();
+        legacyApi = retrofit.create(LegacyApi.class);
     }
 
     public static synchronized NetworkSingleton getInstance(Context context) {
         if (instance == null) {
-            instance = new NetworkSingleton(context);
+            instance = new NetworkSingleton(context.getApplicationContext());
         }
         return instance;
     }
 
-    public RequestQueue getRequestQueue() {
-        if (requestQueue == null) {
-            requestQueue = Volley.newRequestQueue(ctx);
-        }
-        return requestQueue;
+    public LegacyApi getLegacyApi() {
+        return legacyApi;
     }
 }

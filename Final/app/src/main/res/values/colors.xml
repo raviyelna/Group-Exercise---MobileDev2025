@@ -18,4 +18,12 @@
     <color name="error_red">#FFE53935</color>
     <color name="text_primary">#FFFFFFFF</color>
     <color name="chat_gray">#FF333447</color>
+    <color name="bg_primary">#0B0B0B</color>
+    <color name="bg_surface">#121212</color>
+    <color name="nav_background">#0F0F10</color>
+    <color name="text_muted">#B3B3B3</color>
+    <color name="bottom_nav_selected">#A869FF</color>
+    <color name="bottom_nav_unselected">#B3B3B3</color>
+    <color name="colorBackground">#0B0B0B</color>
+    <color name="primary_accent">#A869FF</color>
 </resources>

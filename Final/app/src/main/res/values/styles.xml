@@ -4,16 +4,22 @@
         <item name="colorPrimary">@color/accent_cyan</item>
         <item name="colorOnPrimary">@color/white</item>
         <item name="android:statusBarColor">@color/bg_dark</item>
+
+        <!-- Use framework attribute to avoid missing attr error -->
         <item name="android:windowBackground">@color/bg_dark</item>
+        <item name="android:colorBackground">@color/colorBackground</item>
+
         <item name="materialCardViewStyle">@style/CustomCard</item>
         <item name="materialButtonStyle">@style/Widget.MaterialComponents.Button</item>
+
+        <item name="colorOnBackground">@color/text_primary</item>
+        <item name="bottomNavigationStyle">@style/Widget.BottomNavigation</item>
     </style>
 
     <style name="CustomCard" parent="Widget.MaterialComponents.CardView">
         <item name="cardCornerRadius">12dp</item>
         <item name="cardUseCompatPadding">true</item>
     </style>
-
 
     <!-- Theme app (áp vào AndroidManifest) -->
     <style name="Theme.ComicReader" parent="Theme.MaterialComponents.DayNight.NoActionBar">
@@ -29,7 +35,7 @@
         <item name="bottomNavigationStyle">@style/Widget.BottomNavigation</item>
     </style>
 
-    <!-- Style cho item trong màn Account (mình đã dùng trước đó) -->
+    <!-- Style cho item trong màn Account -->
     <style name="AccountItemStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">48dp</item>
@@ -43,7 +49,9 @@
     <!-- Style cho BottomNavigationView -->
     <style name="Widget.BottomNavigation" parent="Widget.MaterialComponents.BottomNavigationView.Colored">
         <item name="android:background">@color/bottom_nav_bg</item>
-        <item name="itemIconTint">@drawable/bottom_nav_color_state</item>
-        <item name="itemTextColor">@drawable/bottom_nav_color_state</item>
+        <!-- use color selector resource (res/color/...) -->
+        <item name="itemIconTint">@color/bottom_nav_color_state</item>
+        <item name="itemTextColor">@color/bottom_nav_color_state</item>
     </style>
+
 </resources>

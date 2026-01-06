@@ -11,11 +11,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.Request;
-import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
 import com.example.comicreaderapp.R;
-import com.example.comicreaderapp.manga_model.NetworkSingleton;
+import com.example.comicreaderapp.api.LegacyApi;
+import com.example.comicreaderapp.api.RetrofitClient;
 import com.example.comicreaderapp.ui.account.SessionManager;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
@@ -24,13 +23,22 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MangaDetailActivity extends AppCompatActivity {
 
     private static final String TAG = "MangaDetailActivity";
-    private static final String BASE_URL = "http://10.0.2.2/api/getData/request.php";
 
     ImageView cover;
     ImageView  btnBookmark;
@@ -45,10 +53,14 @@ public class MangaDetailActivity extends AppCompatActivity {
     private String userId;
     private boolean isBookmarked = false;
 
+    private LegacyApi legacyApi;
+
     @Override
     protected void onCreate(Bundle b) {
         super.onCreate(b);
         setContentView(R.layout.activity_manga_detail);
+
+        legacyApi = RetrofitClient.getInstance().create(LegacyApi.class);
 
         cover = findViewById(R.id.img_manga_cover);
         btnBookmark = findViewById(R.id.btn_bookmark);
@@ -93,34 +105,42 @@ public class MangaDetailActivity extends AppCompatActivity {
     /* ===================== BOOKMARK LOGIC ===================== */
 
     private void checkBookmarkStatus() {
-        String url = BASE_URL + "?r=bookmark&user_id=" + userId;
+        Map<String, String> params = new HashMap<>();
+        params.put("user_id", userId);
 
-        StringRequest req = new StringRequest(
-                Request.Method.GET,
-                url,
-                res -> {
-                    try {
-                        JSONObject root = new JSONObject(res);
-                        JSONArray arr = root.optJSONArray("data");
-                        isBookmarked = false;
+        legacyApi.getData("bookmark", params).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+                    if (!response.isSuccessful() || response.body() == null) {
+                        Log.e(TAG, "bookmark check: empty response");
+                        return;
+                    }
 
-                        if (arr != null) {
-                            for (int i = 0; i < arr.length(); i++) {
-                                if (currentMangaId.equals(arr.getString(i))) {
-                                    isBookmarked = true;
-                                    break;
-                                }
+                    String raw = response.body().string();
+                    JSONObject root = new JSONObject(raw);
+                    JSONArray arr = root.optJSONArray("data");
+                    isBookmarked = false;
+
+                    if (arr != null) {
+                        for (int i = 0; i < arr.length(); i++) {
+                            if (currentMangaId.equals(arr.getString(i))) {
+                                isBookmarked = true;
+                                break;
                             }
                         }
-                        updateBookmarkIcon();
-                    } catch (JSONException e) {
-                        Log.e(TAG, "bookmark check parse error", e);
                     }
-                },
-                err -> Log.e(TAG, "bookmark check error", err)
-        );
+                    updateBookmarkIcon();
+                } catch (Exception e) {
+                    Log.e(TAG, "bookmark check parse error", e);
+                }
+            }
 
-        NetworkSingleton.getInstance(this).getRequestQueue().add(req);
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.e(TAG, "bookmark check error", t);
+            }
+        });
     }
 
     private void toggleBookmark() {
@@ -135,27 +155,29 @@ public class MangaDetailActivity extends AppCompatActivity {
             return;
         }
 
-        StringRequest req = new StringRequest(
-                Request.Method.POST,
-                BASE_URL + "?r=bookmark",
-                res -> {
+        RequestBody reqBody = RequestBody.create(
+                MediaType.parse("application/json; charset=utf-8"),
+                body.toString()
+        );
+
+        legacyApi.postData("bookmark", reqBody).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                // toggle locally if success (we assume backend succeeded if HTTP 200)
+                if (response.isSuccessful()) {
                     isBookmarked = !isBookmarked;
                     updateBookmarkIcon();
-                },
-                err -> Toast.makeText(this, "Bookmark failed", Toast.LENGTH_SHORT).show()
-        ) {
-            @Override
-            public byte[] getBody() {
-                return body.toString().getBytes();
+                } else {
+                    Toast.makeText(MangaDetailActivity.this, "Bookmark failed", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
-            public String getBodyContentType() {
-                return "application/json; charset=utf-8";
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(MangaDetailActivity.this, "Bookmark failed", Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "bookmark toggle error", t);
             }
-        };
-
-        NetworkSingleton.getInstance(this).getRequestQueue().add(req);
+        });
     }
 
     private void updateBookmarkIcon() {
@@ -169,89 +191,99 @@ public class MangaDetailActivity extends AppCompatActivity {
     /* ===================== LOAD MANGA DETAIL ===================== */
 
     private void loadMangaDetail(String mangaId) {
-        String url = BASE_URL + "?r=manga_detail&manga_id=" + mangaId;
+        Map<String, String> params = new HashMap<>();
+        params.put("manga_id", mangaId);
 
-        StringRequest req = new StringRequest(
-                Request.Method.GET,
-                url,
-                res -> {
-                    try {
-                        JSONObject root = new JSONObject(res);
-                        JSONObject manga = root.optJSONObject("manga");
+        legacyApi.getData("manga_detail", params).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+                    if (!response.isSuccessful() || response.body() == null) return;
 
-                        if (manga == null) return;
+                    String raw = response.body().string();
+                    JSONObject root = new JSONObject(raw);
+                    JSONObject manga = root.optJSONObject("manga");
 
-                        title.setText(manga.optString("title", "Unknown"));
+                    if (manga == null) return;
 
-                        String coverUrl = manga.optString("cover", "");
-                        if (!coverUrl.isEmpty()) {
-                            Glide.with(this)
-                                    .load(coverUrl)
-                                    .centerCrop()
-                                    .placeholder(R.drawable.placeholder_cover)
-                                    .error(R.drawable.placeholder_cover)
-                                    .into(cover);
-                        }
+                    title.setText(manga.optString("title", "Unknown"));
 
-                        desc.setText(manga.optString("summary", "No description"));
-                        status.setText("Status: " + manga.optString("status", "Unknown"));
-
-                        genres.removeAllViews();
-                        JSONArray arr = manga.optJSONArray("genres");
-                        if (arr != null) {
-                            for (int i = 0; i < arr.length(); i++) {
-                                Chip chip = new Chip(this);
-                                chip.setText(arr.getString(i));
-                                chip.setClickable(false);
-                                genres.addView(chip);
-                            }
-                        }
-
-                    } catch (JSONException e) {
-                        Log.e(TAG, "manga_detail parse error", e);
+                    String coverUrl = manga.optString("cover", "");
+                    if (!coverUrl.isEmpty()) {
+                        Glide.with(MangaDetailActivity.this)
+                                .load(coverUrl)
+                                .centerCrop()
+                                .placeholder(R.drawable.placeholder_cover)
+                                .error(R.drawable.placeholder_cover)
+                                .into(cover);
                     }
-                },
-                err -> Log.e(TAG, "manga_detail network error", err)
-        );
 
-        NetworkSingleton.getInstance(this).getRequestQueue().add(req);
+                    desc.setText(manga.optString("summary", "No description"));
+                    status.setText("Status: " + manga.optString("status", "Unknown"));
+
+                    genres.removeAllViews();
+                    JSONArray arr = manga.optJSONArray("genres");
+                    if (arr != null) {
+                        for (int i = 0; i < arr.length(); i++) {
+                            Chip chip = new Chip(MangaDetailActivity.this);
+                            chip.setText(arr.getString(i));
+                            chip.setClickable(false);
+                            genres.addView(chip);
+                        }
+                    }
+
+                } catch (Exception e) {
+                    Log.e(TAG, "manga_detail parse error", e);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.e(TAG, "manga_detail network error", t);
+            }
+        });
     }
 
     /* ===================== LOAD CHAPTERS ===================== */
 
     private void loadChapters(String mangaId) {
-        String url = BASE_URL + "?r=chapters_simple&manga_id=" + mangaId;
+        Map<String, String> params = new HashMap<>();
+        params.put("manga_id", mangaId);
 
-        StringRequest req = new StringRequest(
-                Request.Method.GET,
-                url,
-                res -> {
-                    try {
-                        JSONObject root = new JSONObject(res);
-                        JSONArray data = root.optJSONArray("data");
+        legacyApi.getData("chapters_simple", params).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+                    if (!response.isSuccessful() || response.body() == null) return;
 
-                        chapterList.clear();
+                    String raw = response.body().string();
+                    JSONObject root = new JSONObject(raw);
+                    JSONArray data = root.optJSONArray("data");
 
-                        if (data != null) {
-                            for (int i = 0; i < data.length(); i++) {
-                                JSONObject o = data.getJSONObject(i);
-                                MangaChapter c = new MangaChapter();
-                                c.chapter_id = o.optString("chapter_id");
-                                c.chapter_name = o.optString("chapter_name");
-                                c.manga_id = mangaId;
-                                chapterList.add(c);
-                            }
+                    chapterList.clear();
+
+                    if (data != null) {
+                        for (int i = 0; i < data.length(); i++) {
+                            JSONObject o = data.getJSONObject(i);
+                            MangaChapter c = new MangaChapter();
+                            c.chapter_id = o.optString("chapter_id");
+                            c.chapter_name = o.optString("chapter_name");
+                            c.manga_id = mangaId;
+                            chapterList.add(c);
                         }
-
-                        adapter.notifyDataSetChanged();
-
-                    } catch (JSONException e) {
-                        Log.e(TAG, "chapters_simple parse error", e);
                     }
-                },
-                err -> Log.e(TAG, "chapters_simple network error", err)
-        );
 
-        NetworkSingleton.getInstance(this).getRequestQueue().add(req);
+                    adapter.notifyDataSetChanged();
+
+                } catch (Exception e) {
+                    Log.e(TAG, "chapters_simple parse error", e);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.e(TAG, "chapters_simple network error", t);
+            }
+        });
     }
 }

@@ -23,6 +23,7 @@ import com.example.comicreaderapp.ui.account.SessionManager;
 import com.example.comicreaderapp.ui.bookmarks.BookmarksActivity;
 import com.example.comicreaderapp.ui.home.HomeActivity;
 import com.example.comicreaderapp.ui.recent.RecentActivity;
+import com.example.comicreaderapp.utils.BottomNavUtils;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.HashMap;
@@ -44,8 +45,6 @@ public class ChatActivity extends AppCompatActivity {
     ImageButton btnSend;
 
     int currentConversationId = -1;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +72,14 @@ public class ChatActivity extends AppCompatActivity {
 
         api = RetrofitClient.getInstance().create(ChatApi.class);
 
-        setupBottomNav();
+        BottomNavigationView nav = findViewById(R.id.bottom_nav);
+        if (nav != null) {
+            nav.bringToFront();
+            BottomNavUtils.apply(nav, this);
+            BottomNavUtils.setupNavigation(nav, this, R.id.nav_chat);
+        }
+
+
         loadConversations();
 
         btnSend.setOnClickListener(v -> {
@@ -103,8 +109,6 @@ public class ChatActivity extends AppCompatActivity {
             });
         });
 
-
-
         btnBack.setOnClickListener(v -> {
             if (currentConversationId != -1) {
                 // If currently inside a chat → go back to conversation list
@@ -116,13 +120,11 @@ public class ChatActivity extends AppCompatActivity {
                 finish();
             }
         });
-
-
     }
-
 
     private void setupBottomNav() {
         BottomNavigationView nav = findViewById(R.id.bottom_nav);
+        if (nav == null) return;
         nav.setSelectedItemId(R.id.nav_chat);
 
         nav.setOnItemSelectedListener(item -> {

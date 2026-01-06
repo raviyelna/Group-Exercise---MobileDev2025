@@ -1,48 +1,49 @@
 package com.example.comicreaderapp.readUI;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.ScrollView;
-import android.os.Build;
 import android.view.WindowInsets;
 import android.view.WindowInsetsController;
 import android.view.WindowManager;
-
-
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.ScrollView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.android.volley.Request;
-import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
 import com.example.comicreaderapp.R;
-import com.example.comicreaderapp.manga_model.NetworkSingleton;
+import com.example.comicreaderapp.api.LegacyApi;
+import com.example.comicreaderapp.api.RetrofitClient;
+import com.example.comicreaderapp.manga_model.NetworkSingleton; // NOTE: unused, kept for compatibility if needed
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ReaderActivity extends AppCompatActivity {
 
     private static final String TAG = "ReaderActivity";
-    private static final String BASE_URL = "http://10.0.2.2/api/getData/request.php";
 
     // UI Components
-
     private ImageButton btnBack, btnMore, btnPrev, btnNext, btnSettings;
     private TextView tvTitle, tvPageIndicator;
     private ImageView imgPage;
     private ScrollView scrollViewPage;
-
-
 
     // Data
     private String mangaId;
@@ -50,6 +51,8 @@ public class ReaderActivity extends AppCompatActivity {
     private List<String> imageUrls = new ArrayList<>();
     private int currentPage = 0;
     private int totalPages = 0;
+
+    private LegacyApi legacyApi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +81,8 @@ public class ReaderActivity extends AppCompatActivity {
         }
 
         setContentView(R.layout.activity_reader);
+
+        legacyApi = RetrofitClient.getInstance().create(LegacyApi.class);
 
         // Get data from intent
         mangaId = getIntent().getStringExtra("manga_id");
@@ -133,19 +138,14 @@ public class ReaderActivity extends AppCompatActivity {
         });
 
         btnMore.setOnClickListener(v -> {
-            // TODO: Implement more options menu
             Toast.makeText(this, "More options", Toast.LENGTH_SHORT).show();
         });
 
         btnSettings.setOnClickListener(v -> {
-            // TODO: Implement reader settings
             Toast.makeText(this, "Reader settings", Toast.LENGTH_SHORT).show();
         });
 
-        // Add tap zones for easier navigation
         imgPage.setOnClickListener(v -> {
-            // Center tap can toggle UI visibility or do nothing
-            // For now, we'll use it to go to next page
             if (currentPage < totalPages - 1) {
                 currentPage++;
                 displayPage();
@@ -155,56 +155,58 @@ public class ReaderActivity extends AppCompatActivity {
     }
 
     private void loadChapterImages() {
-        String url = BASE_URL + "?r=read_images&manga_id=" + mangaId + "&chapter_name=" + chapterName;
+        Map<String, String> params = new HashMap<>();
+        params.put("manga_id", mangaId);
+        params.put("chapter_name", chapterName);
 
-        Log.d(TAG, "Loading images from: " + url);
+        legacyApi.getData("read_images", params).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+                    if (!response.isSuccessful() || response.body() == null) {
+                        Toast.makeText(ReaderActivity.this, "No images found for this chapter", Toast.LENGTH_SHORT).show();
+                        finish();
+                        return;
+                    }
 
-        StringRequest request = new StringRequest(
-                Request.Method.GET,
-                url,
-                response -> {
-                    try {
-                        JSONObject root = new JSONObject(response);
+                    String raw = response.body().string();
+                    JSONObject root = new JSONObject(raw);
 
-                        // Get the images array
-                        JSONArray imagesArray = root.optJSONArray("images");
-                        totalPages = root.optInt("count", 0);
+                    JSONArray imagesArray = root.optJSONArray("images");
+                    totalPages = root.optInt("count", 0);
 
-                        if (imagesArray != null && imagesArray.length() > 0) {
-                            imageUrls.clear();
+                    if (imagesArray != null && imagesArray.length() > 0) {
+                        imageUrls.clear();
 
-                            for (int i = 0; i < imagesArray.length(); i++) {
-                                String imageUrl = imagesArray.getString(i);
-                                imageUrls.add(imageUrl);
-                            }
-
-                            // Display first page
-                            currentPage = 0;
-                            displayPage();
-
-                            Log.d(TAG, "Loaded " + imageUrls.size() + " images");
-
-                        } else {
-                            Toast.makeText(this, "No images found for this chapter", Toast.LENGTH_SHORT).show();
-                            finish();
+                        for (int i = 0; i < imagesArray.length(); i++) {
+                            String imageUrl = imagesArray.getString(i);
+                            imageUrls.add(imageUrl);
                         }
 
-                    } catch (JSONException e) {
-                        Log.e(TAG, "Error parsing chapter images", e);
-                        Toast.makeText(this, "Error loading chapter images", Toast.LENGTH_SHORT).show();
+                        currentPage = 0;
+                        displayPage();
+
+                        Log.d(TAG, "Loaded " + imageUrls.size() + " images");
+
+                    } else {
+                        Toast.makeText(ReaderActivity.this, "No images found for this chapter", Toast.LENGTH_SHORT).show();
                         finish();
                     }
-                },
-                error -> {
-                    Log.e(TAG, "Network error loading images", error);
-                    Toast.makeText(this, "Network error. Please try again.", Toast.LENGTH_SHORT).show();
+
+                } catch (JSONException | IOException e) {
+                    Log.e(TAG, "Error parsing chapter images", e);
+                    Toast.makeText(ReaderActivity.this, "Error loading chapter images", Toast.LENGTH_SHORT).show();
                     finish();
                 }
-        );
+            }
 
-        NetworkSingleton.getInstance(this)
-                .getRequestQueue()
-                .add(request);
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.e(TAG, "Network error loading images", t);
+                Toast.makeText(ReaderActivity.this, "Network error. Please try again.", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        });
     }
 
     private void displayPage() {
@@ -212,18 +214,14 @@ public class ReaderActivity extends AppCompatActivity {
             return;
         }
 
-        // Update page indicator
         tvPageIndicator.setText("Page " + (currentPage + 1) + " of " + totalPages);
 
-        // Update button states
         btnPrev.setEnabled(currentPage > 0);
         btnNext.setEnabled(currentPage < totalPages - 1);
 
-        // Set alpha to show disabled state
         btnPrev.setAlpha(currentPage > 0 ? 1.0f : 0.5f);
         btnNext.setAlpha(currentPage < totalPages - 1 ? 1.0f : 0.5f);
 
-        // Load image with Glide
         String imageUrl = imageUrls.get(currentPage);
 
         Log.d(TAG, "Loading page " + (currentPage + 1) + ": " + imageUrl);
@@ -235,7 +233,6 @@ public class ReaderActivity extends AppCompatActivity {
                 .error(R.drawable.placeholder_cover)
                 .into(imgPage);
 
-        // Scroll to top when changing pages
         scrollViewPage.post(() -> scrollViewPage.scrollTo(0, 0));
     }
 
