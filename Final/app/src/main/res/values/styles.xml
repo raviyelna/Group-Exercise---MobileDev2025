@@ -54,4 +54,26 @@
         <item name="itemTextColor">@color/bottom_nav_color_state</item>
     </style>
 
+    <!-- TextInputLayout cho dark mode -->
+    <style name="DarkTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:textColorHint">@color/text_input_hint_dark</item>
+        <item name="hintTextColor">@color/text_input_hint_dark</item>
+
+        <item name="boxBackgroundMode">outline</item>
+        <item name="boxBackgroundColor">@color/text_input_bg_dark</item>
+        <item name="boxStrokeColor">@color/text_input_stroke_dark</item>
+        <item name="boxStrokeWidth">1dp</item>
+        <item name="boxStrokeWidthFocused">2dp</item>
+
+        <item name="counterTextColor">@color/text_secondary</item>
+        <item name="errorTextColor">@color/error_red</item>
+        <item name="helperTextTextColor">@color/text_secondary</item>
+    </style>
+
+    <!-- TextInputEditText dùng trong dark mode -->
+    <style name="DarkTextInputEditText" parent="Widget.MaterialComponents.TextInputEditText.OutlinedBox">
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:textColorHint">@color/text_input_hint_dark</item>
+    </style>
+
 </resources>

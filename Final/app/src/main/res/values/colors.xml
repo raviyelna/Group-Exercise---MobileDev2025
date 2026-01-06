@@ -26,4 +26,9 @@
     <color name="bottom_nav_unselected">#B3B3B3</color>
     <color name="colorBackground">#0B0B0B</color>
     <color name="primary_accent">#A869FF</color>
+
+    <!-- MỚI: màu dùng cho textinput dark theme -->
+    <color name="text_input_hint_dark">#80FFFFFF</color>
+    <color name="text_input_stroke_dark">#3A3A3E</color>
+    <color name="text_input_bg_dark">#1E1E20</color>
 </resources>
